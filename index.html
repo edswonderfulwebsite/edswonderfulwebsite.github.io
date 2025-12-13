@@ -38,7 +38,7 @@
 <body>
 
   <div class="box">
-    <h2>Enter Password</h2>
+    <h2>Enter The Password</h2>
     <input type="password" id="password" placeholder="Password">
     <br>
     <button onclick="checkPassword()">Submit</button>
@@ -51,40 +51,12 @@
       const entered = document.getElementById("password").value;
 
       if (entered === correctPassword) {
-        window.location.href = "secret.html";
+        window.location.href = "welcome.html";
       } else {
         document.getElementById("error").textContent = "Incorrect password";
       }
     }
   </script>
 
-</body>
-</html>
-
-<!-- ======================= -->
-<!-- secret.html (second page) -->
-<!-- ======================= -->
-
-<!-- Save the code below as secret.html -->
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Ed's Wonderful Website</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #222;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-  </style>
-</head>
-<body>
-  <h1>Welcome to Ed's wonderful website.</h1>
 </body>
 </html>
