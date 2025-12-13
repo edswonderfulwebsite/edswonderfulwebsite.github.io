@@ -2,42 +2,89 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reality Changelog</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Ed's Wonderful Website</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .box {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    input {
+      padding: 10px;
+      width: 200px;
+      margin-top: 10px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Reality Changelog</h1>
-    <p>Universe, v28.5.0</p>
-  </header>
 
-  <main>
-    <section class="release">
-      <h2>Latest release, v28.5.0 <span class="date">9-20-2000</span></h2>
-      <ul>
-        <li>Added small black hole near Milky way solar system, and will let the physics engine do its thing to wipe the area.</li>
-      </ul>
-    </section>
+  <div class="box">
+    <h2>Enter Password</h2>
+    <input type="password" id="password" placeholder="Password">
+    <br>
+    <button onclick="checkPassword()">Submit</button>
+    <p id="error" class="error"></p>
+  </div>
 
-    <section class="release">
-      <h2>v28.4.7 <span class="date">6-18-1969</span></h2>
-      <ul>
-        <li>Implemented bunkers on Earths moon for its lifeforms to seek refuge due to humanitys' efforts to invade the civilization. May delete the HUMAN lifeform soon, I will attempt to bugfix it first.</li>
-        <li>Patched Ç̵̨̮͚͚̻͖̳̾̄͐͑̓͋͐̒́̿͘R̴̘̬̼̔̊ͅE̴̡̞̩̫̼̥͙̻̊̉͛͠A̴̠̗̭̺̗͍̼͕̳̽̇͗̈͒̀͗͛̕̚͝͠T̴̙̠̗̠̘̳̳̤̙͕̽̋̓̈̄̆̊̓̄̾̄̚Ư̵̻̋̑̌̓̀̓́͒́̌͜͝R̵͉͈͚͓̰̬͍͕̓̈͂̊͊͊̂ͅE̶̠͗̉̋̏͝͝, implemented memory wipe function in case of humans.</li>
-      </ul>
-    </section>
+  <script>
+    function checkPassword() {
+      const correctPassword = "silly123"; // change this
+      const entered = document.getElementById("password").value;
 
-    <section class="release">
-      <h2>v1.0.0 <span class="date">329,018BCE</span></h2>
-      <ul>
-        <li>Updated human lifeform located on planet Earth.</li>
-      </ul>
-    </section>
-  </main>
+      if (entered === correctPassword) {
+        window.location.href = "secret.html";
+      } else {
+        document.getElementById("error").textContent = "Incorrect password";
+      }
+    }
+  </script>
 
-  <footer>
-    <p>© 3.8B BCE</p>
-  </footer>
+</body>
+</html>
+
+<!-- ======================= -->
+<!-- secret.html (second page) -->
+<!-- ======================= -->
+
+<!-- Save the code below as secret.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ed's Wonderful Website</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #222;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Ed's wonderful website.</h1>
 </body>
 </html>
