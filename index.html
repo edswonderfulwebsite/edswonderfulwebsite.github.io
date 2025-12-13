@@ -2,61 +2,134 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Ed's Wonderful Website</title>
+  <title>Login</title>
   <style>
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      background: black;
+      color: white;
       height: 100vh;
+      overflow: hidden;
     }
-    .box {
-      background: white;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+
+    .login-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255,255,255,0.05);
+      padding: 30px 50px;
+      border-radius: 12px;
       text-align: center;
     }
-    input {
-      padding: 10px;
-      width: 200px;
-      margin-top: 10px;
+
+    .login-box h2 {
+      margin: 0;
+      font-weight: normal;
+      letter-spacing: 2px;
     }
-    button {
+
+    input {
       margin-top: 15px;
-      padding: 10px 20px;
+      padding: 8px;
+      background: black;
+      border: 1px solid #555;
+      color: white;
+    }
+
+    button {
+      margin-top: 12px;
+      padding: 8px 18px;
+      background: white;
+      border: none;
       cursor: pointer;
     }
-    .error {
-      color: red;
+
+    #error {
       margin-top: 10px;
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    /* Cube */
+    #cube {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: white;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
     }
   </style>
 </head>
 <body>
 
-  <div class="box">
-    <h2>Enter The Password</h2>
-    <input type="password" id="password" placeholder="Password">
-    <br>
-    <button onclick="checkPassword()">Submit</button>
-    <p id="error" class="error"></p>
-  </div>
+<div class="login-box">
+  <h2>login</h2>
+  <input type="password" id="password"><br>
+  <button onclick="login()">enter</button>
+  <div id="error"></div>
+</div>
 
-  <script>
-    function checkPassword() {
-      const correctPassword = "silly123"; // change this
-      const entered = document.getElementById("password").value;
+<div id="cube"></div>
 
-      if (entered === correctPassword) {
-        window.location.href = "welcome.html";
-      } else {
-        document.getElementById("error").textContent = "Incorrect password";
-      }
+<script>
+  const PASSWORD = "letmein";
+
+  function login() {
+    const value = document.getElementById("password").value;
+    if (value === PASSWORD) {
+      sessionStorage.setItem("authenticated", "true");
+      window.location.href = "welcome.html";
+    } else {
+      document.getElementById("error").textContent = "incorrect";
     }
-  </script>
+  }
+
+  const cube = document.getElementById("cube");
+  let x = window.innerWidth / 2;
+  let y = 0;
+  let vy = 0;
+  let grounded = true;
+
+  const speed = 5;
+  const gravity = 0.8;
+  const jump = 14;
+
+  const keys = {};
+  window.addEventListener("keydown", e => keys[e.key.toLowerCase()] = true);
+  window.addEventListener("keyup", e => keys[e.key.toLowerCase()] = false);
+
+  function update() {
+    if (keys['a']) x -= speed;
+    if (keys['d']) x += speed;
+
+    x = Math.max(0, Math.min(window.innerWidth - 20, x));
+
+    if (keys[' '] && grounded) {
+      vy = jump;
+      grounded = false;
+    }
+
+    vy -= gravity;
+    y += vy;
+
+    if (y <= 0) {
+      y = 0;
+      vy = 0;
+      grounded = true;
+    }
+
+    cube.style.left = x + 'px';
+    cube.style.bottom = y + 'px';
+
+    requestAnimationFrame(update);
+  }
+
+  update();
+</script>
 
 </body>
 </html>
