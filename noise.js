@@ -1,23 +1,34 @@
-// Simple 2D value noise (deterministic)
-function rand(x, y) {
-  return Math.sin(x * 127.1 + y * 311.7) * 43758.5453 % 1;
+function rand(x) {
+  return Math.sin(x * 127.1) * 43758.5453 % 1;
 }
 
-function lerp(a, b, t) { return a + (b - a) * t; }
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
 
-function noise2D(x, y) {
-  const xi = Math.floor(x);
-  const yi = Math.floor(y);
-  const xf = x - xi;
-  const yf = y - yi;
+function smoothNoise(x, seed) {
+  const x0 = Math.floor(x);
+  const x1 = x0 + 1;
+  const t = x - x0;
 
-  const r1 = rand(xi, yi);
-  const r2 = rand(xi + 1, yi);
-  const r3 = rand(xi, yi + 1);
-  const r4 = rand(xi + 1, yi + 1);
+  const r0 = rand(x0 + seed);
+  const r1 = rand(x1 + seed);
 
-  const i1 = lerp(r1, r2, xf);
-  const i2 = lerp(r3, r4, xf);
+  return lerp(r0, r1, t);
+}
 
-  return lerp(i1, i2, yf);
+function octaveNoise(x, octaves, persistence, scale, seed) {
+  let total = 0;
+  let frequency = scale;
+  let amplitude = 1;
+  let max = 0;
+
+  for (let i = 0; i < octaves; i++) {
+    total += smoothNoise(x * frequency, seed + i * 100) * amplitude;
+    max += amplitude;
+    amplitude *= persistence;
+    frequency *= 2;
+  }
+
+  return total / max;
 }
