@@ -12,19 +12,18 @@ const keys = {};
 addEventListener('keydown', e => keys[e.key.toLowerCase()] = true);
 addEventListener('keyup', e => keys[e.key.toLowerCase()] = false);
 
-function solid(tx, ty) {
-  if (tx < 0 || ty < 0 || tx >= WORLD_W || ty >= WORLD_H) return true;
-  return world[ty][tx] !== TILES.AIR;
+function solid(x, y) {
+  if (x < 0 || y < 0 || x >= WORLD_W || y >= WORLD_H) return true;
+  return world[y][x] !== TILES.AIR;
 }
 
 function updatePlayer(dt) {
   const acc = 30;
-  const max = 6;
   const grav = 40;
   const jump = 14;
 
-  if (keys['a']) player.vx = Math.max(player.vx - acc * dt, -max);
-  if (keys['d']) player.vx = Math.min(player.vx + acc * dt, max);
+  if (keys['a']) player.vx -= acc * dt;
+  if (keys['d']) player.vx += acc * dt;
 
   player.vx *= 0.85;
   player.vy += grav * dt;
