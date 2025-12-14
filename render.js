@@ -16,8 +16,8 @@ function render() {
 
   const x0 = Math.max(0, Math.floor(camX / TILE) - 2);
   const y0 = Math.max(0, Math.floor(camY / TILE) - 2);
-  const x1 = Math.min(WORLD_W, x0 + Math.ceil(canvas.width / TILE) + 4);
-  const y1 = Math.min(WORLD_H, y0 + Math.ceil(canvas.height / TILE) + 4);
+  const x1 = Math.min(WORLD_W, x0 + canvas.width / TILE + 4);
+  const y1 = Math.min(WORLD_H, y0 + canvas.height / TILE + 4);
 
   for (let y = y0; y < y1; y++) {
     for (let x = x0; x < x1; x++) {
