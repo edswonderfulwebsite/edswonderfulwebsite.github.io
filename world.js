@@ -26,41 +26,39 @@ const COLORS = {
   4: '#3f76e4',
   5: '#8d6e63',
   6: '#2e7d32',
-  7: '#444'
+  7: '#555' // background stone
 };
 
 const world = Array.from({ length: WORLD_H }, () =>
   Array(WORLD_W).fill(TILES.AIR)
 );
 
-// ===== GENERATION =====
+const background = Array.from({ length: WORLD_H }, () =>
+  Array(WORLD_W).fill(TILES.AIR)
+);
+
 function generateWorld() {
   const height = [];
 
+  // Terrain
   for (let x = 0; x < WORLD_W; x++) {
     const base = octaveNoise(x, 3, 0.5, 0.002, WORLD_SEED);
     const hills = octaveNoise(x, 4, 0.5, 0.04, WORLD_SEED + 99);
     height[x] = Math.floor(SEA_LEVEL + base * 18 + hills * 12);
   }
 
-  // Terrain layers
+  // Strata
   for (let x = 0; x < WORLD_W; x++) {
     for (let y = height[x]; y < WORLD_H; y++) {
       if (y === height[x]) world[y][x] = TILES.GRASS;
       else if (y < height[x] + 4) world[y][x] = TILES.DIRT;
       else world[y][x] = TILES.STONE;
+
+      background[y][x] = TILES.BACK;
     }
   }
 
-  // Background stone
-  for (let y = 0; y < WORLD_H; y++) {
-    for (let x = 0; x < WORLD_W; x++) {
-      if (world[y][x] === TILES.STONE)
-        world[y][x] = TILES.STONE, world[y][x] |= 0;
-    }
-  }
-
-  // Caves (branching walkers)
+  // Caves
   function carve(x, y, len, angle) {
     for (let i = 0; i < len; i++) {
       for (let dx = -1; dx <= 1; dx++)
@@ -74,9 +72,9 @@ function generateWorld() {
       x += Math.cos(angle);
       y += Math.sin(angle) * 0.5;
       angle += (rng() - 0.5) * 0.3;
-      if (y < 30 || y > WORLD_H - 5) break;
 
-      if (rng() < 0.02)
+      if (y < 30 || y > WORLD_H - 5) break;
+      if (rng() < 0.015)
         carve(x, y, len * 0.6, angle + (rng() < 0.5 ? -1 : 1));
     }
   }
@@ -84,11 +82,13 @@ function generateWorld() {
   for (let i = 0; i < 28; i++)
     carve(rng() * WORLD_W, 40 + rng() * 50, 30 + rng() * 40, rng() * Math.PI * 2);
 
-  // Water fill
-  for (let x = 0; x < WORLD_W; x++)
-    for (let y = SEA_LEVEL; y < WORLD_H; y++)
+  // Water (ONLY surface lakes)
+  for (let x = 0; x < WORLD_W; x++) {
+    for (let y = height[x] + 1; y < SEA_LEVEL; y++) {
       if (world[y][x] === TILES.AIR)
         world[y][x] = TILES.WATER;
+    }
+  }
 
   // Trees
   for (let x = 2; x < WORLD_W - 2; x++) {
@@ -99,3 +99,9 @@ function generateWorld() {
         for (let dx = -2; dx <= 2; dx++)
           for (let dy = -2; dy <= 0; dy++)
             world[y - 4 + dy][x + dx] = TILES.LEAF;
+      }
+    }
+  }
+}
+
+generateWorld();
