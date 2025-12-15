@@ -20,15 +20,32 @@ function render() {
   for (let i = 0; i < 20; i++)
     ctx.fillRect((i * 200 - camX * 0.3) % canvas.width, 40, 120, 30);
 
+  // Background layer
+  for (let y = 0; y < WORLD_H; y++) {
+    for (let x = 0; x < WORLD_W; x++) {
+      if (background[y][x] === TILES.BACK) {
+        ctx.fillStyle = COLORS[TILES.BACK];
+        ctx.fillRect(x * TILE - camX, y * TILE - camY, TILE, TILE);
+      }
+    }
+  }
+
+  // Foreground blocks
   for (let y = 0; y < WORLD_H; y++) {
     for (let x = 0; x < WORLD_W; x++) {
       const t = world[y][x];
-      if (!t || t === TILES.AIR) continue;
+      if (t === TILES.AIR) continue;
       ctx.fillStyle = COLORS[t];
       ctx.fillRect(x * TILE - camX, y * TILE - camY, TILE, TILE);
     }
   }
 
+  // Player
   ctx.fillStyle = '#fff';
-  ctx.fillRect(player.x * TILE - camX, player.y * TILE - camY, TILE, TILE * 2);
+  ctx.fillRect(
+    player.x * TILE - camX,
+    player.y * TILE - camY,
+    TILE,
+    TILE * 2
+  );
 }
