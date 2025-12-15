@@ -9,30 +9,26 @@ addEventListener('resize', resize);
 resize();
 
 function render() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#87ceeb';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   const camX = player.x * TILE - canvas.width / 2;
   const camY = player.y * TILE - canvas.height / 2;
 
-  const x0 = Math.max(0, Math.floor(camX / TILE) - 2);
-  const y0 = Math.max(0, Math.floor(camY / TILE) - 2);
-  const x1 = Math.min(WORLD_W, x0 + canvas.width / TILE + 4);
-  const y1 = Math.min(WORLD_H, y0 + canvas.height / TILE + 4);
+  // Clouds
+  ctx.fillStyle = 'rgba(255,255,255,0.8)';
+  for (let i = 0; i < 20; i++)
+    ctx.fillRect((i * 200 - camX * 0.3) % canvas.width, 40, 120, 30);
 
-  for (let y = y0; y < y1; y++) {
-    for (let x = x0; x < x1; x++) {
+  for (let y = 0; y < WORLD_H; y++) {
+    for (let x = 0; x < WORLD_W; x++) {
       const t = world[y][x];
-      if (t === TILES.AIR) continue;
+      if (!t || t === TILES.AIR) continue;
       ctx.fillStyle = COLORS[t];
       ctx.fillRect(x * TILE - camX, y * TILE - camY, TILE, TILE);
     }
   }
 
   ctx.fillStyle = '#fff';
-  ctx.fillRect(
-    player.x * TILE - camX - player.w * TILE / 2,
-    player.y * TILE - camY - player.h * TILE,
-    player.w * TILE,
-    player.h * TILE
-  );
+  ctx.fillRect(player.x * TILE - camX, player.y * TILE - camY, TILE, TILE * 2);
 }
