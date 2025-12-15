@@ -15,10 +15,8 @@ function smoothNoise(x, seed) {
   const x0 = Math.floor(x);
   const x1 = x0 + 1;
   const t = x - x0;
-
   const r0 = Math.sin((x0 + seed) * 127.1) * 43758.5453 % 1;
   const r1 = Math.sin((x1 + seed) * 127.1) * 43758.5453 % 1;
-
   return lerp(r0, r1, t);
 }
 
