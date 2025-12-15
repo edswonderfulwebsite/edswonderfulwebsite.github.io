@@ -18,7 +18,7 @@ function solid(x, y) {
 }
 
 function updatePlayer(dt) {
-  const acc = 30;
+  const acc = 100;
   const grav = 40;
   const jump = 14;
 
