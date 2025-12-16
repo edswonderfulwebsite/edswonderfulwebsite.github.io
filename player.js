@@ -37,7 +37,7 @@ function collide(px, py) {
 }
 
 function updatePlayer(dt) {
-  const accel = 30;
+  const accel = 100;
   const maxSpeed = 8;
   const gravity = 35;
   const jump = 14;
