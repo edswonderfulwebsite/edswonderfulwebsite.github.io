@@ -16,7 +16,7 @@ addEventListener("keydown", e => keys[e.key.toLowerCase()] = true);
 addEventListener("keyup", e => keys[e.key.toLowerCase()] = false);
 
 /* -------------------------
-   LEVEL (simple test map)
+   LEVEL
 -------------------------- */
 const TILE = 32;
 const level = [
@@ -31,7 +31,6 @@ const level = [
   "#......................#",
   "########################"
 ];
-
 const SOLID = "#";
 
 /* -------------------------
@@ -50,7 +49,7 @@ const player = {
 };
 
 /* -------------------------
-   PHYSICS CONSTANTS
+   PHYSICS
 -------------------------- */
 const GRAVITY = 35;
 const MOVE_ACCEL = 60;
@@ -83,9 +82,9 @@ function collide(px, py) {
    UPDATE
 -------------------------- */
 function update(dt) {
-  // Horizontal movement
-  if (keys.a) player.vx -= MOVE_ACCEL * dt;
-  if (keys.d) player.vx += MOVE_ACCEL * dt;
+  // Horizontal movement (arrow keys)
+  if (keys["arrowleft"])  player.vx -= MOVE_ACCEL * dt;
+  if (keys["arrowright"]) player.vx += MOVE_ACCEL * dt;
 
   player.vx *= 0.85;
   player.vx = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, player.vx));
@@ -94,16 +93,21 @@ function update(dt) {
   if (player.dashTime <= 0)
     player.vy += GRAVITY * dt;
 
-  // Jump
-  if (keys.w && player.onGround) {
+  // Jump (C)
+  if (keys.c && player.onGround) {
     player.vy = -JUMP_FORCE;
     player.onGround = false;
   }
 
-  // Dash
-  if (keys[" "] && player.canDash) {
-    const dx = (keys.d ? 1 : 0) - (keys.a ? 1 : 0);
-    const dy = (keys.s ? 1 : 0) - (keys.w ? 1 : 0);
+  // Dash (X)
+  if (keys.x && player.canDash) {
+    const dx =
+      (keys["arrowright"] ? 1 : 0) -
+      (keys["arrowleft"] ? 1 : 0);
+    const dy =
+      (keys["arrowdown"] ? 1 : 0) -
+      (keys["arrowup"] ? 1 : 0);
+
     if (dx || dy) {
       const mag = Math.hypot(dx, dy);
       player.vx = (dx / mag) * DASH_SPEED;
@@ -116,14 +120,14 @@ function update(dt) {
   if (player.dashTime > 0)
     player.dashTime -= dt;
 
-  // X axis
+  // X movement
   player.x += player.vx * dt;
   if (collide(player.x, player.y)) {
     player.x -= player.vx * dt;
     player.vx = 0;
   }
 
-  // Y axis
+  // Y movement
   player.y += player.vy * dt;
   if (collide(player.x, player.y)) {
     player.y -= player.vy * dt;
@@ -173,7 +177,7 @@ function draw() {
 }
 
 /* -------------------------
-   GAME LOOP
+   LOOP
 -------------------------- */
 let last = 0;
 function loop(t) {
