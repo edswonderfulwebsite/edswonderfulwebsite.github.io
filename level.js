@@ -1,20 +1,18 @@
 const TILE = 32;
-
-// Simple test geometry
 const groundY = 12;
 const wallX = 15;
 
-function groundCollision(player) {
-  if (player.y + player.h >= groundY) {
-    player.y = groundY - player.h;
+function groundCollision(player, size) {
+  if (player.y + size >= groundY) {
+    player.y = groundY - size;
     return true;
   }
   return false;
 }
 
-function wallCollision(player) {
-  if (player.x + player.w >= wallX) {
-    player.x = wallX - player.w;
+function wallCollision(player, size) {
+  if (player.x + size >= wallX) {
+    player.x = wallX - size;
     player.wallSide = 1;
     return true;
   }
